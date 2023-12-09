@@ -1,0 +1,98 @@
+#!/bin/bash
+
+#
+
+DIRNAME=$(dirname $0)
+
+#
+
+function FROM {
+	i="$1"
+	echo "$DIRNAME/base_code_lab${i}/Code"
+}
+
+function TO {
+	i="$1"
+	name="$2"
+	famillyname="$3"
+	studentnumber="$4"
+	echo "$DIRNAME/base_code_lab${i}_report_${name}_${famillyname}_${studentnumber}.zip"
+}
+
+#
+
+DATAFILE="$DIRNAME/gen-reports.data"
+
+if [ -f "$DATAFILE" ]; then
+    source $DATAFILE
+fi
+
+if [ "$NAME" == "" ]; then
+    printf "Enter your name: "
+    read NAME
+fi
+
+if [ "$FAMILLYNAME" == "" ]; then
+    printf "Enter your familly name: "
+    read FAMILLYNAME
+fi
+
+#
+
+if [ "$STUDENTNUMBER" == "" ]; then
+    printf "Enter your student number: "
+    read STUDENTNUMBER
+fi
+
+if [ -f "$DATAFILE" ]; then
+    rm $DATAFILE
+fi
+printf "NAME=${NAME}\nFAMILLYNAME=${FAMILLYNAME}\nSTUDENTNUMBER=${STUDENTNUMBER}\n" >> $DATAFILE
+
+#
+
+CWD=$(pwd)
+
+npm install
+mdpdf="node $CWD/node_modules/mdpdf/bin/index.js"
+
+for i in 2 3 4 5 6
+do
+	SRC="$(FROM ${i})"
+	DEST="$(TO "${i}" "$NAME" "$FAMILLYNAME" "$STUDENTNUMBER")"
+
+    if [ -d "$SRC" ]; then
+        if [ -f "$DEST" ]; then
+            rm $DEST
+        fi
+
+        
+        REALDEST="$(realpath -m --relative-to=$SRC $DEST)"
+
+        # 
+
+        cd $SRC
+        
+        # clean tp
+        make mrproper
+
+        # generate report pdf
+        $mdpdf --style ../../mdpdf-assets/style.css --header ../../mdpdf-assets/header.html --footer ../../mdpdf-assets/footer.html README.md
+
+        # generate archive without undesired files
+        zip -q -r $REALDEST . -x .gitignore -x *.md -x "documentation/*"
+        ZIP_RESULT=$?
+        
+        cd $CWD
+
+        # 
+        
+        if [ $ZIP_RESULT -eq 0 ]; then
+            printf "[\x1b[38;2;0;255;0m✔\x1b[0m] \x1b[38;2;255;255;0m$(basename "$DEST")\x1b[0m successfully generated.\n"
+        else
+            printf "[\x1b[38;2;255;0;0m×\x1b[0m] an error happened while generating \x1b[38;2;255;255;0m$(basename "$DEST")\x1b[0m.\n"
+        fi
+    else
+        printf "[\x1b[38;2;255;170;0m-\x1b[0m] \x1b[38;2;255;255;0m$SRC\x1b[0m not found or not a directory.\n"
+    fi
+done

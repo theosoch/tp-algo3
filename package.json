@@ -1,0 +1,27 @@
+{
+    "scripts": {
+        "gen-reports": "./gen-reports",
+        "run-tp": "cd base_code_lab$TP/Code && make mrproper all DEBUG=no && make mrproper all DEBUG=$DEBUG && echo && eval $(echo $COMMAND)",
+        "run-release-tp2": "TP=2 DEBUG=no COMMAND='./expr_ex1 ../Test/exercice1.txt' npm run run-tp",
+        "run-tp2": "TP=2 DEBUG=yes COMMAND='./expr_ex1 ../Test/exercice1.txt' npm run run-tp",
+        "debug-tp2": "TP=2 DEBUG=yes COMMAND='colour-valgrind -s --leak-check=full --track-origins=yes ./expr_ex1 ../Test/exercice1.txt' npm run run-tp",
+        "run-release-tp3": "TP=3 DEBUG=no COMMAND='read -p \"Enter the test number to run : \" TEST_NUM && echo && ./list_test $TEST_NUM' npm run run-tp",
+        "run-tp3": "TP=3 DEBUG=yes COMMAND='read -p \"Enter the test number to run : \" TEST_NUM && echo && ./list_test $TEST_NUM' npm run run-tp",
+        "debug-tp3": "TP=3 DEBUG=yes COMMAND='read -p \"Enter the test number to run : \" TEST_NUM && echo && colour-valgrind -s --leak-check=full --track-origins=yes ./list_test $TEST_NUM'",
+        "run-release-tp4": "TP=4 DEBUG=no COMMAND='read -p \"Enter the test type to run : \" TEST_TYPE && read -p \"Enter the test number to run : \" TEST_NUM && echo && ./skiplisttest -$TEST_TYPE $TEST_NUM' npm run run-tp",
+        "run-tp4": "TP=4 DEBUG=yes COMMAND='read -p \"Enter the test type to run : \" TEST_TYPE && read -p \"Enter the test number to run : \" TEST_NUM && echo && ./skiplisttest -$TEST_TYPE $TEST_NUM' npm run run-tp",
+        "debug-tp4": "TP=4 DEBUG=yes COMMAND='read -p \"Enter the test type to run : \" TEST_TYPE && read -p \"Enter the test number to run : \" TEST_NUM && echo && colour-valgrind -s --leak-check=full --track-origins=yes ./skiplisttest -$TEST_TYPE $TEST_NUM' npm run run-tp",
+        "test-tp4": "TP=4 DEBUG=yes COMMAND='make tests' npm run run-tp",
+        "run-release-tp5": "TP=5 DEBUG=no COMMAND='./bstreetest ../Test/testfilesimple.txt' npm run run-tp",
+        "run-tp5": "TP=5 DEBUG=yes COMMAND='./bstreetest ../Test/testfilesimple.txt' npm run run-tp",
+        "debug-tp5": "TP=5 DEBUG=yes COMMAND='colour-valgrind -s --leak-check=full --track-origins=yes ./bstreetest ../Test/testfilesimple.txt' npm run run-tp",
+        "gen-tree-tp5": "cd base_code_lab5/Code && dot -Tpdf FullTree.dot -O",
+        "run-release-tp6": "TP=6 DEBUG=no COMMAND='./redblack_trees ../Test/testfilesimple.txt' npm run run-tp",
+        "run-tp6": "TP=6 DEBUG=yes COMMAND='./redblack_trees ../Test/testfilesimple.txt' npm run run-tp",
+        "debug-tp6": "TP=6 DEBUG=yes COMMAND='colour-valgrind -s --leak-check=full --track-origins=yes ./redblack_trees ../Test/testfilesimple.txt' npm run run-tp",
+        "gen-trees-tp6": "cd base_code_lab6/Code && make pdf"
+    },
+    "dependencies": {
+        "mdpdf": "^3.0.1"
+    }
+}

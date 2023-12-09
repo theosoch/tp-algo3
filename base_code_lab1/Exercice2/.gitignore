@@ -1,0 +1,5 @@
+*.o
+documentation
+*.pdf
+
+stack_ex2

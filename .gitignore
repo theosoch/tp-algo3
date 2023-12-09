@@ -1,0 +1,7 @@
+.vscode
+
+node_modules
+
+base_code_lab*.zip
+
+gen-reports.data

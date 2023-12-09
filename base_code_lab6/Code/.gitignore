@@ -1,0 +1,5 @@
+*.o
+documentation
+*.pdf
+
+redblack_trees

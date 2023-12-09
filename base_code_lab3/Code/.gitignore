@@ -1,0 +1,5 @@
+*.o
+documentation
+*.pdf
+
+list_test
